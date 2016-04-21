@@ -1,0 +1,24 @@
+version: '2'
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: mediawiki
+      MYSQL_ROOT_PASSWORD: none
+    ports:
+      - "3306:3306"
+  web:
+    image: synctree/mediawiki
+#    entrypoint: /bin/bash
+    volumes:
+      - .:/code
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+       MYSQL_PORT_3306_TCP: 3306
+       MEDIAWIKI_DB_HOST: dockermediawiki_db_1
+       MEDIAWIKI_DB_PASSWORD: none
+       MEDIAWIKI_DB_NAME: mediawiki
+       MEDIAWIKI_DB_USER: root
